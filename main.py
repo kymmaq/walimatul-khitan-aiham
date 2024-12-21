@@ -15,34 +15,43 @@ def calculate_time_remaining():
     return days, hours, minutes, seconds
 
 def main(page: ft.Page):
-    page.window.icon="icon/test.ico"
-    page.title="Walimatul Khitan Aiham"
-    page.padding=0
-    page.vertical_alignment="center"
-    page.horizontal_alignment="center"
-    page.fonts={
+    page.window.icon = "icon/test.ico"
+    page.title = "Walimatul Khitan Aiham"
+    page.padding = 0
+    page.vertical_alignment = "start"
+    page.horizontal_alignment = "center"
+    page.scroll = "auto"
+    page.fonts = {
         "Poppins": "fonts/Poppins-Regular.ttf",
         "Courgette": "fonts/Courgette-Regular.ttf",
         "GreatVibes": "fonts/GreatVibes-Regular.ttf"
     }
 
-    def navigate_to_info_page(e):
-        page.views.clear()
-        page.views.append(information_page())
-        page.update()
-
-    def navigate_to_land_page(e):
-        page.views.clear()
-        page.views.append(landing_page())
-        page.update()
-
     def open_google_maps(e):
         page.launch_url("https://goo.gl/maps/3FodAzUTxwbMtNk47")
 
-    def landing_page():
-        return ft.View(
-            "/",
+    countdown_text = ft.Text(
+        size=12,
+        weight=ft.FontWeight.BOLD,
+        text_align="center",
+        color="#3f4b2e",
+        font_family="Poppins"
+    )
+
+    def update_countdown():
+        while True:
+            days, hours, minutes, seconds = calculate_time_remaining()
+            countdown_text.value = f"Berakhir dalam:\n{days} Hari, {hours} Jam, {minutes} Menit, {seconds} Detik"
+            page.update()
+            time.sleep(1)
+
+    import threading
+    threading.Thread(target=update_countdown, daemon=True).start()
+
+    page.add(
+        ft.Column(
             controls=[
+                # Landing Section
                 ft.Stack(
                     alignment=ft.alignment.center,
                     controls=[
@@ -88,10 +97,7 @@ def main(page: ft.Page):
                                     font_family="Poppins"
 
                                 ),
-                                ft.Divider(
-                                    height=20,
-                                    color="transparent"
-                                ),
+                                ft.Divider(height=20, color="transparent"),
 
                                 ft.Container(
                                     bgcolor="white10",
@@ -107,10 +113,7 @@ def main(page: ft.Page):
                                     )
                                 ),
 
-                                ft.Divider(
-                                    height=10,
-                                    color="transparent"
-                                ),
+                                ft.Divider(height=10, color="transparent"),
 
                                 ft.Text(
                                     "Aiham Zunzadi Azhar",
@@ -120,50 +123,16 @@ def main(page: ft.Page):
                                     font_family="Courgette",
                                     text_align="center"
                                 ),
-
-                                ft.Divider(
-                                    height=8,
-                                    color="transparent"
-                                ),
-
-                                ft.ElevatedButton(
-                                    "Buka Undangan",
-                                    on_click=navigate_to_info_page,
-                                    color="white",
-                                    bgcolor="#3f4b2e",
-                                    icon=ft.icons.MARK_EMAIL_UNREAD_ROUNDED
-                                ),
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         )
                     ]
-                )
-            ]
-        )
+                ),
 
-    def information_page():
-        countdown_text = ft.Text(
-            size=12,
-            weight=ft.FontWeight.BOLD,
-            text_align="center",
-            color="#3f4b2e",
-            font_family="Poppins"
-        )
+                ft.Divider(height=50, color="transparent"),
 
-        def update_countdown():
-            while True:
-                days, hours, minutes, seconds = calculate_time_remaining()
-                countdown_text.value = f"Berakhir dalam:\n{days} Hari, {hours} Jam, {minutes} Menit, {seconds} Detik"
-                page.update()
-                time.sleep(1)
-
-        import threading
-        threading.Thread(target=update_countdown, daemon=True).start()
-
-        return ft.View(
-            "/information",
-            controls=[
+                # Information Section
                 ft.Stack(
                     alignment=ft.alignment.center,
                     controls=[
@@ -258,27 +227,12 @@ def main(page: ft.Page):
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
-                        ft.ElevatedButton(
-                            "Kembali",
-                            on_click=navigate_to_land_page,
-                            color="white",
-                            bgcolor="#3f4b2e",
-                            icon=ft.icons.ARROW_BACK_IOS_NEW,
-                            bottom=150
-                        )
                     ]
                 )
-            ]
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER
         )
-
-    page.views.append(landing_page())
-
-    def view_pop(e):
-        if len(page.views) > 1:
-            page.views.pop()
-            page.update()
-
-    page.on_view_pop = view_pop
-    page.update()
+    )
 
 ft.app(target=main, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
