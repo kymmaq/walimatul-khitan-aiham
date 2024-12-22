@@ -14,7 +14,7 @@ def main(page: ft.Page):
     }
 
     def open_google_maps(e):
-        page.launch_url("https://goo.gl/maps/3FodAzUTxwbMtNk47")
+        page.launch_url("https://www.google.com")
 
     page.add(
         ft.Column(
