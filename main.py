@@ -1,18 +1,4 @@
 import flet as ft
-from datetime import datetime
-import time
-
-TARGET_DATE = datetime(2024, 12, 26, 23, 59, 59)
-
-def calculate_time_remaining():
-    now = datetime.now()
-    delta = TARGET_DATE - now
-    days = delta.days
-    seconds = delta.seconds
-    hours = seconds // 3600
-    minutes = (seconds % 3600) // 60
-    seconds = seconds % 60
-    return days, hours, minutes, seconds
 
 def main(page: ft.Page):
     page.title = "Walimatul Khitan Aiham"
@@ -29,24 +15,6 @@ def main(page: ft.Page):
 
     def open_google_maps(e):
         page.launch_url("https://goo.gl/maps/3FodAzUTxwbMtNk47")
-
-    countdown_text = ft.Text(
-        size=12,
-        weight=ft.FontWeight.BOLD,
-        text_align="center",
-        color="#3f4b2e",
-        font_family="Poppins"
-    )
-
-    def update_countdown():
-        while True:
-            days, hours, minutes, seconds = calculate_time_remaining()
-            countdown_text.value = f"Berakhir dalam:\n{days} Hari, {hours} Jam, {minutes} Menit, {seconds} Detik"
-            page.update()
-            time.sleep(1)
-
-    import threading
-    threading.Thread(target=update_countdown, daemon=True).start()
 
     page.add(
         ft.Column(
@@ -152,7 +120,7 @@ def main(page: ft.Page):
                     ]
                 ),
 
-                ft.Divider(height=50, color="transparent"),
+                ft.Divider(height=0, color="transparent"),
 
                 # Information Section
                 ft.Stack(
@@ -202,8 +170,6 @@ def main(page: ft.Page):
                                     color="#303923",
                                     font_family="Poppins"
                                 ),
-
-                                countdown_text,
 
                                 ft.Text(
                                     "Tempat :\nKampungbaru,\nDesa Tamansari Rt 02 Rw 05,\nKec. Karangmoncol,\nKab. Purbalingga.",
