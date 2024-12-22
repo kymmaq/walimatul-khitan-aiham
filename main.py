@@ -15,9 +15,9 @@ def calculate_time_remaining():
     return days, hours, minutes, seconds
 
 def main(page: ft.Page):
-    page.window.icon = "icon/test.ico"
     page.title = "Walimatul Khitan Aiham"
     page.padding = 0
+    page.bgcolor="white"
     page.vertical_alignment = "start"
     page.horizontal_alignment = "center"
     page.scroll = "auto"
@@ -59,7 +59,7 @@ def main(page: ft.Page):
                             expand=True,
                             width=page.width,
                             height=page.height,
-                            bgcolor="black",
+                            bgcolor="white",
                         ),
 
                         ft.Image(
@@ -89,14 +89,15 @@ def main(page: ft.Page):
                                     color="#3f4b2e",
                                     font_family="GreatVibes",
                                 ),
+
                                 ft.Text(
                                     "Dengan memohon Rahmat dan Ridho Allah\nKami mengundang Bapak/Ibu/Saudara/i\nuntuk menghadiri acara tasyakuran\nwalimatul khitan putra kami:",
                                     size=12,
                                     text_align="center",
                                     color="#303923",
                                     font_family="Poppins"
-
                                 ),
+
                                 ft.Divider(height=20, color="transparent"),
 
                                 ft.Container(
@@ -126,7 +127,28 @@ def main(page: ft.Page):
                             ],
                             alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        )
+                        ),
+                        ft.Column(
+                            controls=[
+                                ft.Divider(height=600, color="transparent"),
+                                ft.Text(
+                                    "Lihat undangan",
+                                    size=12,
+                                    text_align="center",
+                                    weight=ft.FontWeight.BOLD,
+                                    color="#303923",
+                                    font_family="Poppins"
+                                ),
+
+                                ft.Icon(
+                                    ft.icons.ARROW_DROP_DOWN,
+                                    color="black",
+                                    size=40
+                                ),
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER,
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                        ),
                     ]
                 ),
 
@@ -140,7 +162,7 @@ def main(page: ft.Page):
                             expand=True,
                             width=page.width,
                             height=page.height,
-                            bgcolor="black",
+                            bgcolor="white",
                         ),
 
                         ft.Image(
